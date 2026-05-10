@@ -6,9 +6,16 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "@/lib/firebase/client";
 import { useRouter } from "next/navigation";
 import { Package, Booking } from "@/lib/types";
-import { Check, ArrowRight, LogOut, ChevronLeft } from "lucide-react";
+import { Check, ArrowRight, LogOut, ChevronLeft, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { Modal } from "@/components/ui/Modal";
+import dynamic from "next/dynamic";
+
+const MapPicker = dynamic(() => import("@/components/ui/MapPicker"), {
+  ssr: false,
+  loading: () => <div className="h-[300px] bg-[#F5F5F5] animate-pulse rounded-[16px] flex items-center justify-center text-sm text-[#6B6B6B]">Loading Map...</div>
+});
 
 const TIME_SLOTS = ["9:00 AM", "11:00 AM", "1:00 PM", "3:00 PM", "5:00 PM"];
 
@@ -48,6 +55,7 @@ export default function DashboardPage() {
   const [notes, setNotes] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState("");
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   const [submitting, setSubmitting] = useState(false);
   const [bookingId, setBookingId] = useState("");
@@ -274,7 +282,15 @@ export default function DashboardPage() {
 
               <div className="bg-white rounded-2xl border border-[#E5E5E5] p-6 flex flex-col gap-4 max-w-xl">
                 <div>
-                  <label className="text-sm font-medium block mb-1.5">Parking spot / address *</label>
+                  <div className="flex justify-between items-end mb-1.5">
+                    <label className="text-sm font-medium block">Parking spot / address *</label>
+                    <button 
+                      onClick={() => setIsMapOpen(true)}
+                      className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-full bg-[#0D0D0D] text-[#C8F135] hover:bg-[#1a1a1a] transition-colors shadow-sm"
+                    >
+                      <MapPin size={12} /> Pick on Map
+                    </button>
+                  </div>
                   <input
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
@@ -523,6 +539,15 @@ export default function DashboardPage() {
           )}
         </AnimatePresence>
       </main>
+
+      <Modal open={isMapOpen} onClose={() => setIsMapOpen(false)} title="Select Location on Map" className="sm:max-w-xl">
+        {isMapOpen && (
+          <MapPicker
+            onLocationSelect={(addr) => setLocation(addr)}
+            onClose={() => setIsMapOpen(false)}
+          />
+        )}
+      </Modal>
     </div>
   );
 }
