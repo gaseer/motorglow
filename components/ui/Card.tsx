@@ -1,10 +1,10 @@
 "use client";
 
-import { HTMLAttributes } from "react";
+import { HTMLMotionProps, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "dark" | "popular";
+export interface CardProps extends HTMLMotionProps<"div"> {
+  variant?: "default" | "dark" | "popular" | "ghost" | "glass";
   hover?: boolean;
 }
 
@@ -17,21 +17,23 @@ export function Card({
 }: CardProps) {
   const variantClasses = {
     default: "bg-white border border-[#E5E5E5] text-[#0D0D0D]",
-    dark: "bg-[#0D0D0D] border border-[#0D0D0D] text-white",
-    popular: "bg-white border-2 border-[#C8F135] text-[#0D0D0D] scale-[1.02]",
+    dark: "bg-[#0D0D0D] border border-[#222222] text-white",
+    popular: "bg-white border-2 border-[#C8F135] text-[#0D0D0D] shadow-sm",
+    ghost: "bg-transparent border border-dashed border-[#E5E5E5] text-[#0D0D0D]",
+    glass: "bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm text-[#0D0D0D]",
   };
 
   return (
-    <div
+    <motion.div
+      whileHover={hover ? { y: -4, boxShadow: "0 12px 30px -10px rgba(0,0,0,0.08)" } : {}}
       className={cn(
-        "rounded-2xl p-6",
+        "rounded-[20px] p-6 lg:p-8 relative overflow-hidden transition-colors duration-300",
         variantClasses[variant],
-        hover && "transition-transform duration-200 hover:scale-[1.02]",
         className
       )}
       {...props}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
   CalendarCheck,
@@ -31,64 +32,102 @@ export function Sidebar() {
   };
 
   return (
-    <aside
-      className={cn(
-        "relative flex flex-col bg-white border-r border-[#E5E5E5] transition-all duration-300 shrink-0",
-        collapsed ? "w-16" : "w-56"
-      )}
-    >
-      {/* Logo */}
-      <div className="h-14 flex items-center px-4 border-b border-[#E5E5E5] overflow-hidden">
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="w-6 h-6 rounded-full bg-[#C8F135] shrink-0" />
-          {!collapsed && (
-            <span className="font-bold text-[#0D0D0D] whitespace-nowrap">MotorGlow</span>
-          )}
+    <>
+      {/* Desktop Sidebar */}
+      <aside
+        className={cn(
+          "hidden sm:flex relative flex-col bg-white border-r border-[#E5E5E5] transition-all duration-300 shrink-0 h-[100svh] sticky top-0",
+          collapsed ? "w-[72px]" : "w-64"
+        )}
+      >
+        {/* Logo */}
+        <div className="h-16 flex items-center px-6 border-b border-[#E5E5E5] overflow-hidden shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="w-7 h-7 rounded-full bg-[#C8F135] shrink-0" />
+            {!collapsed && (
+              <span className="font-extrabold text-[#0D0D0D] tracking-tight whitespace-nowrap text-lg">MotorGlow</span>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-2 py-3 flex flex-col gap-1">
+        {/* Nav */}
+        <nav className="flex-1 px-3 py-4 flex flex-col gap-2">
+          {navItems.map(({ href, label, icon: Icon }) => {
+            const active = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                title={collapsed ? label : undefined}
+                className={cn(
+                  "relative flex items-center gap-3 px-3 py-2.5 rounded-[12px] text-sm font-semibold transition-colors",
+                  active
+                    ? "text-[#0D0D0D]"
+                    : "text-[#6B6B6B] hover:text-[#0D0D0D]"
+                )}
+              >
+                {active && (
+                  <motion.div
+                    layoutId="desktop-active-indicator"
+                    className="absolute inset-0 bg-[#F5F5F5] rounded-[12px] -z-10"
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  />
+                )}
+                <Icon size={20} className={cn("shrink-0", active ? "text-[#0D0D0D]" : "text-[#888888]")} />
+                {!collapsed && <span>{label}</span>}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Logout */}
+        <div className="px-3 py-4 border-t border-[#E5E5E5]">
+          <button
+            onClick={handleLogout}
+            title={collapsed ? "Logout" : undefined}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-[12px] text-sm font-semibold text-[#6B6B6B] hover:bg-red-50 hover:text-red-600 w-full transition-all cursor-pointer group"
+          >
+            <LogOut size={20} className="shrink-0 group-hover:text-red-500" />
+            {!collapsed && <span>Logout</span>}
+          </button>
+        </div>
+
+        {/* Collapse toggle */}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="absolute -right-[14px] top-20 w-7 h-7 bg-white shadow-sm border border-[#E5E5E5] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] transition-colors z-10 text-[#6B6B6B] hover:text-[#0D0D0D]"
+        >
+          {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+        </button>
+      </aside>
+
+      {/* Mobile Sticky Bottom Nav Spacer */}
+      <div className="h-[72px] sm:hidden shrink-0 w-full" />
+
+      {/* Mobile Sticky Bottom Nav */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-[#E5E5E5] flex justify-around items-center px-2 py-2 pb-[env(safe-area-inset-bottom)] z-50">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
-            <Link
-              key={href}
-              href={href}
-              title={collapsed ? label : undefined}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
-                active
-                  ? "bg-[#0D0D0D] text-white"
-                  : "text-[#6B6B6B] hover:bg-[#F5F5F5] hover:text-[#0D0D0D]"
+            <Link key={href} href={href} className="flex flex-col items-center justify-center w-16 h-14 relative rounded-[12px]">
+              {active && (
+                <motion.div
+                  layoutId="mobile-active-indicator"
+                  className="absolute inset-0 bg-[#F5F5F5] rounded-[12px] -z-10"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                />
               )}
-            >
-              <Icon size={18} className="shrink-0" />
-              {!collapsed && <span>{label}</span>}
+              <Icon size={22} className={cn("mb-1 transition-colors", active ? "text-[#0D0D0D]" : "text-[#888888]")} />
+              <span className={cn("text-[10px] font-bold transition-colors", active ? "text-[#0D0D0D]" : "text-[#888888]")}>{label}</span>
             </Link>
           );
         })}
-      </nav>
-
-      {/* Logout */}
-      <div className="px-2 py-3 border-t border-[#E5E5E5]">
-        <button
-          onClick={handleLogout}
-          title={collapsed ? "Logout" : undefined}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#6B6B6B] hover:bg-red-50 hover:text-red-600 w-full transition-all cursor-pointer"
-        >
-          <LogOut size={18} className="shrink-0" />
-          {!collapsed && <span>Logout</span>}
+        {/* Mobile Logout (condensed) */}
+        <button onClick={handleLogout} className="flex flex-col items-center justify-center w-16 h-14 text-[#888888] hover:text-red-600 transition-colors">
+          <LogOut size={22} className="mb-1" />
+          <span className="text-[10px] font-bold">Logout</span>
         </button>
-      </div>
-
-      {/* Collapse toggle */}
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3 top-16 w-6 h-6 bg-white border border-[#E5E5E5] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#F5F5F5] z-10"
-      >
-        {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
-      </button>
-    </aside>
+      </nav>
+    </>
   );
 }
