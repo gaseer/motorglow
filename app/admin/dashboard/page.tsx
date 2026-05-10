@@ -43,9 +43,9 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#F5F5F5]">
+    <div className="flex flex-col sm:flex-row min-h-[100svh] bg-[#F5F5F5] pb-20 sm:pb-0">
       <Sidebar />
-      <main className="flex-1 p-6 overflow-auto">
+      <main className="flex-1 p-4 sm:p-6 overflow-auto w-full">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-2xl font-bold text-[#0D0D0D] mb-6">Overview</h1>
 

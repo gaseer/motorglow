@@ -101,8 +101,6 @@ export function Sidebar() {
         </button>
       </aside>
 
-      {/* Mobile Sticky Bottom Nav Spacer */}
-      <div className="h-[72px] sm:hidden shrink-0 w-full" />
 
       {/* Mobile Sticky Bottom Nav */}
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-[#E5E5E5] flex justify-around items-center px-2 py-2 pb-[env(safe-area-inset-bottom)] z-50">
