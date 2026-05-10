@@ -72,8 +72,8 @@ export function WhyMotorGlow() {
 
       <div className="relative max-w-7xl mx-auto z-10">
         <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-          animate={inView ? (prefersReducedMotion ? false : { opacity: 1, y: 0 }) : {}}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={inView ? (prefersReducedMotion ? {} : { opacity: 1, y: 0 }) : {}}
           transition={{ duration: 0.5 }}
           className="text-center mb-[40px] sm:mb-[60px]"
         >
@@ -88,9 +88,9 @@ export function WhyMotorGlow() {
             return (
               <motion.div
                 key={feature.title}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-                animate={inView ? (prefersReducedMotion ? false : { opacity: 1, y: 0 }) : {}}
-                whileHover={prefersReducedMotion ? false : { y: -4, boxShadow: "0 10px 30px -10px rgba(0,0,0,0.08)" }}
+                initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                animate={inView ? (prefersReducedMotion ? {} : { opacity: 1, y: 0 }) : {}}
+                whileHover={prefersReducedMotion ? {} : { y: -4, boxShadow: "0 10px 30px -10px rgba(0,0,0,0.08)" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="bg-white/80 backdrop-blur-sm rounded-[16px] p-[20px] sm:p-[24px] flex flex-row gap-[16px] items-start border border-[#E5E5E5] transition-colors w-full"
               >

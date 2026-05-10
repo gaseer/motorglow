@@ -74,9 +74,9 @@ function PackageCard({ pkg, index, inView }: { pkg: Package; index: number; inVi
   
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-      animate={inView ? (prefersReducedMotion ? false : { opacity: 1, y: yOffset }) : {}}
-      whileHover={prefersReducedMotion ? false : { y: yOffset - 8, scale: 1.01 }}
+      initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+      animate={inView ? (prefersReducedMotion ? {} : { opacity: 1, y: yOffset }) : {}}
+      whileHover={prefersReducedMotion ? {} : { y: yOffset - 8, scale: 1.01 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`relative rounded-[24px] p-8 flex flex-col h-full items-start ${
         isDark
@@ -177,8 +177,8 @@ export function Packages() {
     <section id="packages" className="bg-[#F5F5F5] py-[80px] pb-16 sm:py-[120px] overflow-hidden" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-          animate={inView ? (prefersReducedMotion ? false : { opacity: 1, y: 0 }) : {}}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={inView ? (prefersReducedMotion ? {} : { opacity: 1, y: 0 }) : {}}
           transition={{ duration: 0.5 }}
           className="text-center mb-12 px-[20px] sm:px-[32px]"
         >

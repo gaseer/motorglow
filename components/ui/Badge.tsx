@@ -1,12 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
-import { motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "framer-motion";
 
 type BadgeVariant = "default" | "accent" | "dark" | "amber" | "blue" | "green" | "red" | "lime";
 
-interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+export interface BadgeProps extends Omit<HTMLMotionProps<"span">, "ref" | "children"> {
+  children?: React.ReactNode;
   variant?: BadgeVariant;
   dot?: boolean;
 }

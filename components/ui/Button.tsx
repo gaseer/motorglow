@@ -4,7 +4,8 @@ import { HTMLMotionProps, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 
-export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
+export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
+  children?: React.ReactNode;
   variant?: "primary" | "accent" | "outline" | "accent-outline" | "ghost" | "danger";
   size?: "sm" | "md" | "lg" | "xl";
   loading?: boolean;

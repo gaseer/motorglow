@@ -35,8 +35,8 @@ export function HowItWorks() {
     <section id="how-it-works" className="bg-white py-[64px] pb-[64px] px-[20px] sm:py-[96px] sm:px-[32px] overflow-hidden" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-          animate={inView ? (prefersReducedMotion ? false : { opacity: 1, y: 0 }) : {}}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={inView ? (prefersReducedMotion ? {} : { opacity: 1, y: 0 }) : {}}
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
@@ -52,9 +52,9 @@ export function HowItWorks() {
           {steps.map((step, i) => (
             <motion.div
               key={step.number}
-              initial={prefersReducedMotion ? false : { opacity: 0, x: -24 }}
-              animate={inView ? (prefersReducedMotion ? false : { opacity: 1, x: 0 }) : {}}
-              whileHover={prefersReducedMotion ? false : { y: -6, boxShadow: "0 12px 30px -10px rgba(0,0,0,0.08)" }}
+              initial={prefersReducedMotion ? {} : { opacity: 0, x: -24 }}
+              animate={inView ? (prefersReducedMotion ? {} : { opacity: 1, x: 0 }) : {}}
+              whileHover={prefersReducedMotion ? {} : { y: -6, boxShadow: "0 12px 30px -10px rgba(0,0,0,0.08)" }}
               transition={{ duration: 0.5, delay: i * 0.15 }}
               className="relative flex gap-4 p-[20px] rounded-[16px] bg-white border border-[#E5E5E5] border-l-[4px] border-l-[#C8F135] md:border-l-[1px] md:border-t-4 transition-colors z-10 hover:border-l-[#C8F135] md:hover:border-[#C8F135]"
               style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
